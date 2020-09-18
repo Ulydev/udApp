@@ -1,26 +1,22 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import GridView from './components/GridView';
+
+import { StoreProvider } from "easy-peasy"
+import store from "./state/store"
+import MenuBar from './components/MenuBar';
+import GlobalModal from './components/GlobalModal';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <StoreProvider store={store}>
+            <div className="relative w-full h-full overflow-x-hidden overflow-y-hidden">
+                <GridView />
+                <MenuBar />
+                <GlobalModal />
+            </div>
+        </StoreProvider>
+    );
 }
 
 export default App;

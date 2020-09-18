@@ -30,18 +30,19 @@ const GridView = () => {
             className="border relative">
             { !editing ? (
                 <PairFrame name={pairNames[el.i]} />
-            ) : (
-                <div className="flex w-full h-full items-center justify-center p-2">
+            ) : <>
+                <div className="absolute w-full h-full draggable bg-black bg-opacity-25" />
+                <div className="absolute flex w-full h-full items-center justify-center p-2 z-10 pointer-events-none">
                     <input
                         type="text"
-                        className="w-full max-w-xs border p-2"
+                        className="w-full max-w-xs border p-2 pointer-events-auto"
                         placeholder="Ticker"
                         value={pairNames[el.i] || ""} onChange={({ target: { value } }) => setPairName({ i: el.i, name: value })}/>
                 </div>
-            ) }
+            </> }
             { editing ? <>
                 <button
-                    className="absolute top-0 right-0 mr-1 mt-1 cursor-pointer"
+                    className="absolute top-0 right-0 mr-1 mt-1 cursor-pointer z-10"
                     onClick={() => removeItem(el.i)}>
                     <FiX />
                 </button>
@@ -59,6 +60,7 @@ const GridView = () => {
             isBounded={true}
             isResizable={editing}
             onBreakpointChange={(breakpoint, cols) => setCols(cols)}
+            draggableHandle=".draggable"
         >
             {layout.map(GridElement)}
         </ResponsiveReactGridLayout>

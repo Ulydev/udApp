@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { useStoreActions, useStoreState } from "../state/hooks"
 
 import { AiFillCheckCircle, AiFillEdit, AiFillInfoCircle, AiFillPlusCircle } from "react-icons/ai"
@@ -20,7 +20,7 @@ const MenuBar = () => {
                     Welcome! This simple app lets you organise <a href="https://uniswap.vision/" target="_blank" rel="noopener noreferrer" className="text-blue-500">Uniswap Vision</a> views to display multiple tickers at the same time.
                 </p>
                 <p className="mt-2">
-                    To get started, enter a ticker name in one of the pre-generated boxes (e.g. "UNIUSDC"), then click on the "Finish" button in the bottom right corner.
+                    To edit your dashboard, click the "Edit" button, then enter a ticker name in one of the pre-generated boxes (e.g. "UNIUSDC"). Click on the "Finish" button in the bottom right corner to save your dashboard.
                 </p>
                 <p className="mt-2">
                     You can move items by dragging them, resize them, or remove them by clicking on the "X" button. To add items, click the "Add" button in the menu bar. New items pop up at the bottom center of the screen, so make sure you make some room for them before adding.
@@ -33,6 +33,15 @@ const MenuBar = () => {
             </div>
         })
     }
+
+    const firstLaunch = useStoreState(store => store.firstLaunch)
+    const launch = useStoreActions(store => store.launch)
+    useEffect(() => {
+        if (firstLaunch) {
+            showInfoModal()
+            launch()
+        }
+    }, [firstLaunch]) // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <div className={classnames(

@@ -29,7 +29,8 @@ const ContainerModal: FunctionComponent<Props & {
                 "items-center",
                 "px-4", title ? "py-4" : "pt-4 -mb-4",
                 title && "bg-gray-200",
-                "rounded-xl"
+                "rounded-xl",
+                "z-50"
             )}>
                 {title ? <h2>{ title }</h2> : null}
                 <button className="ml-auto" onClick={onRequestClose}><FiX /></button>

@@ -7,6 +7,9 @@ import "./index.css"
 import './tailwind.generated.css';
 import "react-grid-layout/css/styles.css"
 import "react-resizable/css/styles.css"
+import ReactModal from 'react-modal';
+
+ReactModal.setAppElement("#root")
 
 ReactDOM.render(
   <React.StrictMode>

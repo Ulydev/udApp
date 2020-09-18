@@ -2,4 +2,4 @@
 
 A simple app to organise your Uniswap Vision tickers.
 
-![screenshot](https://ibb.co/k4cc58g)
+![screenshot](https://i.ibb.co/PcCCFhZ/Screen-Shot-2020-09-18-at-17-50-54.png)

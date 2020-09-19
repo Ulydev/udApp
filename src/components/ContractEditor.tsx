@@ -29,8 +29,10 @@ const Method: FunctionComponent<{
             setResultMessage({ text: result.toString(), color: "text-green-500" })
         } catch (e) {
             let message = e.message || e.toString()
-            if (message === "contract[name] is not a function")
+            if (["contract[name] is not a function", "Cannot read property 'apply' of undefined"].includes(message))
                 message = "Function doesn't exist in provided ABI"
+            else if (message.includes("Cannot read property"))
+                message = "Contract hasn't been created or is invalid"
             setResultMessage({ text: message, color: "text-red-500" })
         }
     }

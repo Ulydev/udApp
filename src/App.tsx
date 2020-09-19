@@ -1,19 +1,30 @@
 import React from 'react';
 import './App.css';
-import GridView from './components/GridView';
 
 import { StoreProvider } from "easy-peasy"
 import store from "./state/store"
-import MenuBar from './components/MenuBar';
-import GlobalModal from './components/GlobalModal';
+
+import ContractEditor from './components/ContractEditor';
+import { useEagerConnect } from './hooks/useEagerConnect';
+import { useInactiveListener } from './hooks/useInactiveListener';
+import { useWeb3React } from '@web3-react/core';
+import ActivatePrompt from './components/ActivatePrompt';
 
 function App() {
+
+    const { active } = useWeb3React()
+    const triedEager = useEagerConnect()
+    useInactiveListener(!triedEager)
+
     return (
         <StoreProvider store={store}>
-            <div className="relative w-full h-full overflow-x-hidden overflow-y-hidden">
-                <GridView />
-                <MenuBar />
-                <GlobalModal />
+            <div className="relative w-full h-full overflow-x-hidden overflow-y-hidden flex flex-col items-center pt-4">
+                <h1 className="text-2xl text-blue-500 font-bold mb-4">Contract Admin</h1>
+                { active ? (
+                    <ContractEditor />
+                ) : (
+                    <ActivatePrompt />
+                ) }
             </div>
         </StoreProvider>
     );

@@ -8,14 +8,20 @@ import './tailwind.generated.css';
 import "react-grid-layout/css/styles.css"
 import "react-resizable/css/styles.css"
 import ReactModal from 'react-modal';
+import { Web3ReactProvider } from '@web3-react/core';
+import { Web3Provider } from '@ethersproject/providers';
 
 ReactModal.setAppElement("#root")
 
+const getLibrary = (provider: any) => new Web3Provider(provider)
+
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+    <React.StrictMode>
+        <Web3ReactProvider getLibrary={getLibrary}>
+            <App />
+        </Web3ReactProvider>
+    </React.StrictMode>,
+    document.getElementById('root')
 );
 
 // If you want your app to work offline and load faster, you can change

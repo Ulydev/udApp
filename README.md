@@ -1,5 +1,5 @@
-# Unidash
+# cAdmin
 
-A simple app to organise your Uniswap Vision tickers.
+A simple app to call methods from any contract.
 
-![screenshot](https://i.ibb.co/PcCCFhZ/Screen-Shot-2020-09-18-at-17-50-54.png)
+![screenshot](https://i.ibb.co/zstqm12/Screen-Shot-2020-09-19-at-12-57-59.png)

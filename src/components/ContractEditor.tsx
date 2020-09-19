@@ -23,7 +23,6 @@ const Method: FunctionComponent<{
         setResultMessage({ text: "Executing method...", color: "text-blue-500" })
         try {
             const parsedArgs = args.split(",").map(v => v.trim())
-            console.log(parsedArgs)
             const isEmpty = parsedArgs.length === 0 || ((parsedArgs.length === 1) && parsedArgs[0] === "")
             const result = await contract![name](...(isEmpty ? [] : parsedArgs))
             setResultMessage({ text: result.toString(), color: "text-green-500" })

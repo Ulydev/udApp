@@ -1,5 +1,5 @@
 import { Contract } from "ethers"
-import React, { FunctionComponent, useRef, useState } from "react"
+import React, { FunctionComponent, useMemo, useRef, useState } from "react"
 import { FiMinus, FiPlus } from "react-icons/fi"
 import Container from "./Container"
 import Divider from "./Divider"
@@ -22,13 +22,14 @@ const Method: FunctionComponent<{
     const call = async () => {
         setResultMessage({ text: "Executing method...", color: "text-blue-500" })
         try {
-            const parsedArgs = args.split(",")
+            const parsedArgs = args.split(",").map(v => v.trim())
+            console.log(parsedArgs)
             const isEmpty = parsedArgs.length === 0 || ((parsedArgs.length === 1) && parsedArgs[0] === "")
-            const result = await contract![name](...[isEmpty ? [] : parsedArgs])
+            const result = await contract![name](...(isEmpty ? [] : parsedArgs))
             setResultMessage({ text: result.toString(), color: "text-green-500" })
         } catch (e) {
-            let message = e.toString()
-            if (message === "TypeError: contract[name] is not a function")
+            let message = e.message || e.toString()
+            if (message === "contract[name] is not a function")
                 message = "Function doesn't exist in provided ABI"
             setResultMessage({ text: message, color: "text-red-500" })
         }
@@ -74,6 +75,9 @@ const ContractEditor = () => {
     // Contract
     const [address, setAddress] = useState("")
     const [abi, setAbi] = useState("")
+    const shortAbi = useMemo(() => {
+        return (abi.length > 32) ? abi.substr(0, 32-3) + '...' : abi
+    }, [abi])
 
     const loadERC20 = () => {
         setContractMessage({ text: "Creating contract...", color: "text-blue-500" })
@@ -89,7 +93,8 @@ const ContractEditor = () => {
     const createContract = ({ address, abi }: { address: string, abi: string }) => {
         try {
             const signer = library.getSigner(account).connectUnchecked()
-            const contract = new Contract(address, abi, signer)
+            const buildOrAbi = JSON.parse(abi)
+            const contract = new Contract(address, buildOrAbi.abi || buildOrAbi, signer)
             setContract(contract)
             setContractMessage({ text: "Created contract successfully", color: "text-green-500" })
         } catch (e) {
@@ -129,22 +134,26 @@ const ContractEditor = () => {
                     <div className="flex w-full flex-row space-x-2">
                         <input
                             className="flex-1 p-2 px-4 border rounded-full"
-                            type="text" placeholder="Paste here..."
-                            value={abi} onChange={({ target: { value }}) => {
-                                setContractMessage({ text: "Creating contract...", color: "text-blue-500" })
-                                setAbi(value)
-                                debouncedCreateContract({ address: address, abi: value })
-                            }} />
+                            type="text" placeholder="Upload an ABI..."
+                            disabled
+                            value={shortAbi} />
                         <label
                             className="border p-2 rounded-full hover:bg-blue-500 hover:text-white cursor-pointer px-4"
                             htmlFor="abi">Upload file</label>
                         <input
                             className="hidden"
+                            autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck="false"
                             type="file" id="abi" name="abi" accept=".json" onChange={({ target: { files }}) => {
                                 const file = (files || [])[0]
                                 if (file) {
                                     const reader = new FileReader()
-                                    reader.onload = () => setAbi(reader.result!.toString())
+                                    reader.onload = () => {
+                                        setContractMessage({ text: "Creating contract...", color: "text-blue-500" })
+                                        const uploadedAbi = reader.result!.toString()
+                                        setAbi(uploadedAbi)
+                                        debouncedCreateContract({ address: address, abi: uploadedAbi })
+                                        ;(document.getElementById("abi")! as any).value = ""
+                                    }
                                     reader.readAsText(file)
                                 }
                             }} multiple={false} />

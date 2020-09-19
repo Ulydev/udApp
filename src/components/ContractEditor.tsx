@@ -49,7 +49,7 @@ const Method: FunctionComponent<{
                     <span className="ml-2">Arguments</span>
                     <input
                         className="p-2 px-4 border rounded-full min-w-0"
-                        type="text" placeholder={`10, "string"`}
+                        type="text" placeholder={`Comma-separated`}
                         value={args} onChange={({ target: { value }}) => setArgs(value)} />
                 </div>
                 <div className="self-end flex flex-row items-center space-x-2">

@@ -9,6 +9,7 @@ import { useEagerConnect } from './hooks/useEagerConnect';
 import { useInactiveListener } from './hooks/useInactiveListener';
 import { useWeb3React } from '@web3-react/core';
 import ActivatePrompt from './components/ActivatePrompt';
+import Footer from './components/Footer';
 
 function App() {
 
@@ -18,13 +19,14 @@ function App() {
 
     return (
         <StoreProvider store={store}>
-            <div className="relative w-full h-full overflow-x-hidden overflow-y-auto flex flex-col items-center py-4">
+            <div className="relative w-full min-h-full overflow-x-hidden overflow-y-auto flex flex-col items-center py-4">
                 <h1 className="text-2xl text-blue-500 font-bold mb-4">Contract Admin</h1>
                 { active ? (
                     <ContractEditor />
                 ) : (
                     <ActivatePrompt />
                 ) }
+                <Footer />
             </div>
         </StoreProvider>
     );

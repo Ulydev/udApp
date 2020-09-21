@@ -1,5 +1,7 @@
-# cAdmin
+# udApp starter
 
-A simple app to call methods from any contract.
+A simple starter to get dApp projects on track, fast.
 
-![screenshot](https://i.ibb.co/zstqm12/Screen-Shot-2020-09-19-at-12-57-59.png)
+Contains boilerplate code using React, TypeScript, Tailwind, Web3.
+
+![screenshot](https://i.ibb.co/2sD3WSS/Screen-Shot-2020-09-21-at-20-06-34.png)
